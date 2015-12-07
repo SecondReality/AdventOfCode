@@ -11,7 +11,7 @@ import Data.Text (strip)
 part1 content = container (empty :: Map String Word16) (map buildExpression $ lines content) 0
 
 container map exps depth = let (resultExp, resultMap) = loop map exps
-                           in if (depth < 150) then container resultMap resultExp (depth+1) else resultMap
+                           in if depth < 150 then container resultMap resultExp (depth+1) else resultMap
 
 loop map exps = foldl foldLambda ([] :: [Expression], map) exps
 
@@ -27,7 +27,7 @@ data Expression = BINARY Opcode String String String
                 deriving (Show)
 
 buildExpression str = let (_,_,_, [p1s, instruction, p2, dest]) = parse str
-                          p1 = trim p1s
+                          p1 = init p1s
   in case instruction of "AND" -> BINARY AND dest p1 p2
                          "OR" -> BINARY OR dest p1 p2
                          "RSHIFT" -> BINARY RSHIFT dest p1 p2
@@ -37,11 +37,6 @@ buildExpression str = let (_,_,_, [p1s, instruction, p2, dest]) = parse str
 
 parse :: String -> (String,String,String, [String])
 parse str = str =~ "([a-z0-9]* )*(NOT|AND|OR|RSHIFT|LSHIFT)* *([a-z0-9]+) -> ([a-z]+)"
-
-trim str = reverse (tail (reverse str))
-
-double :: Word16 -> Word16 -> Word16
-double i f= shiftL i (fromIntegral f :: Int)
 
 executeBinaryExpression :: Opcode -> Word16 -> Word16 -> Word16
 executeBinaryExpression AND v1 v2 = (.&.) v1 v2
