@@ -24,7 +24,6 @@ createLightGrid width height = replicate (height*width)
 
 readVec str1 str2 = V2 (read str1) (read str2)
 
-parseLine :: String -> (String, V2 Int, V2 Int)
 parseLine str = let
   (_,_,_, [command, x1, y1, x2, y2]) = groups str
   in (command, readVec x1 y1, readVec x2 y2)
