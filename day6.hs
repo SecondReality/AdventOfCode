@@ -1,9 +1,10 @@
+-- regex-pcre-builtin
 module Day6 where
 import Common
 import Linear.V2
 import Prelude hiding (replicate, head, last, zip, sum)
 import Data.Vector hiding (sequence, map, reverse)
-import Text.Regex.Posix
+import Text.Regex.PCRE
 
 part1 content = count True $ toList (applyCommandList binaryLight content False)
 part2 content = sum (applyCommandList intLight content 0)
@@ -29,7 +30,7 @@ parseLine str = let
   in (command, readVec x1 y1, readVec x2 y2)
 
 groups :: String -> (String,String,String, [String])
-groups str = str =~ "(turn on|toggle|turn off) +([0-9]+),([0-9]+) +through +([0-9]+),([0-9]+)"
+groups str = str =~ "(.*) +(\\d+),(\\d+) +through +(\\d+),(\\d+)"
 
 updateGrid fn p1 p2 lightGrid = let
   indexes = fromList $ indices1d p1 p2
