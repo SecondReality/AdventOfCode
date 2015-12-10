@@ -18,8 +18,8 @@ part2 content = elfRecursion content 0 50
 -- >>> elfIteration "111221"
 -- "312211"
 --
--- The following line will pass in random strings to elfIteration and verify the resulting string is the same length or longer.
--- prop> \xs -> length(elfIteration xs)>= (length xs)
+-- The following line will pass in random strings to elfIteration and verify the resulting string contains the first chracter of the input string.
+-- prop> \xs -> if length xs > 0 then elem (head xs) (elfIteration xs) else True
 
 elfIteration str = concatMap (\ xs -> show (length xs)++[head xs]) $ group str
 
