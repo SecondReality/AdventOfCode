@@ -19,12 +19,9 @@ doesntContainBadStrings str = not.any  (`isInfixOf` str) $ ["ab", "cd", "pq", "x
 -- part 2 --
 isNicePart2 content = all ($ content) [requirement1, requirement2]
 
-requirement1 str =any duplicates (tailPairs str)
+requirement1 str = any duplicates (tailPairs str)
 requirement2 str = any (\ x -> head x == last x) (toGroups str 3)
 
--- Groups a list into overlapping strings of given length. Every entry with be of the given length.
--- example: toGroups "Hello" 2 -> ["He","el","ll","lo"]
-toGroups str len = filter (\x -> len==length x) (map (take len) (tails str))
 -- the tails of the pairs:
 tailPairs str = tails $ toGroups str 2
 duplicates pairs = elem (head pairs) (drop 2 pairs)

@@ -9,7 +9,7 @@ part1 content = maximum allDistances
   where parseContent = L.map parse $ lines content
         places = allPlaces parseContent
         distanceStore = getDistanceStore parseContent
-        allPermutations = permutations places
+        allPermutations = permutations places -- this actually returns too many permutations.
         allDistances = L.map (totalDistance distanceStore) allPermutations
 
 -- Gets the distance between two places
