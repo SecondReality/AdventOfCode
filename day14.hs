@@ -6,11 +6,9 @@ import Data.List
 part1 content = maximum $ map (distanceTravelled 2503) (parseReindeers content)
 part2 content = maximum $ map sum $ transpose $ map (scoreAtTime content) [1..2503]
 
-distanceTravelled time (name, speed, sprintDuration, restDuration) = unclippedDistance + clippedDistance
+distanceTravelled time (name, speed, sprintDuration, restDuration) = speed * (sprintDuration * div time period + min remainder sprintDuration)
   where period = sprintDuration + restDuration
         remainder = mod time period
-        unclippedDistance = speed * sprintDuration * div time period
-        clippedDistance = speed * min remainder sprintDuration
 
 type Reindeer = (String, Int, Int, Int)
 
